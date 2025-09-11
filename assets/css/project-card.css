@@ -94,3 +94,18 @@ button:focus {
   outline: none;
 }
 
+.responsive-mockup {
+    width: 80%;
+    max-width: 100%;
+    margin: 80px auto 0 auto;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    height: 600px;
+}
+@media (max-width: 768px) {
+    .responsive-mockup {
+        width: 100%;
+        height: 400px;
+        margin-top: 40px;
+    }
+}
