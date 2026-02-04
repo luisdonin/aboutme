@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Luis Donin</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- added: prevent horizontal overflow and make readme content responsive -->
+    <style>
+      /* apply sensible box-sizing */
+      *, *::before, *::after { box-sizing: border-box; }
+
+      /* ensure no horizontal scrollbar from content */
+      html, body { overflow-x: hidden; margin: 0; padding: 0; }
+
+      /* main/readme layout */
+      #main-content { width: 100%; max-width: 100%; padding: 1rem; }
+
+      /* make markdown content wrap and images/tables scale down */
+      #readme-container {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+      #readme-container img,
+      #readme-container svg,
+      #readme-container iframe,
+      #readme-container table {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* pre/code: wrap long lines instead of forcing horizontal scroll */
+      #readme-container pre,
+      #readme-container code {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      /* small nav/sidebar safeguards */
+      aside, nav, #sidebar { max-width: 100%; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+
+<aside id="sidebar">
+    <!--    <div class="profile-pic">-->
+    <!--        <img src="assets/img/Untitled.jpg" alt="Luis Donin">-->
+    <!--    </div>-->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="barf.html">Binary Analysis and Reverse Engineering Framework</a></li>
+            <li><a href="certificates.html">Certificates</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="main-content">
+    <div id="readme-container">Loading project documentation...</div>
+</main>
+
+<script>
+    const repoFull = "luisdonin/Police-Report-Management-Backend-Rest-API";
+    const [owner, repo] = repoFull.split('/');
+    const container = document.getElementById('readme-container');
+
+    function b64DecodeUnicode(str) {
+      // Decode base64 to UTF-8 safely
+      return decodeURIComponent(atob(str.replace(/\n/g, '')).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    }
+
+    async function fetchViaApi() {
+      // Try to get README via GitHub API (returns base64)
+      const readmeUrl = `https://api.github.com/repos/${owner}/${repo}/readme`;
+      const resp = await fetch(readmeUrl);
+      if (!resp.ok) throw { type: 'api', status: resp.status };
+      const json = await resp.json();
+      if (!json.content) throw { type: 'api', status: resp.status };
+      return b64DecodeUnicode(json.content);
+    }
+
+    async function fetchRepoInfo() {
+      const infoUrl = `https://api.github.com/repos/${owner}/${repo}`;
+      const resp = await fetch(infoUrl);
+      if (!resp.ok) throw { type: 'info', status: resp.status };
+      return resp.json(); // contains default_branch
+    }
+
+    async function fetchRawReadme(branchCandidates = ['main','master']) {
+      // Try default branch first if available, else given candidates
+      let branches = branchCandidates;
+      try {
+        const info = await fetchRepoInfo();
+        if (info && info.default_branch) branches = [info.default_branch, ...branchCandidates.filter(b => b !== info.default_branch)];
+      } catch (e) {
+        // ignore, we'll try candidates
+      }
+      for (const br of branches) {
+        const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${br}/README.md`;
+        try {
+          const r = await fetch(rawUrl);
+          if (r.ok) return await r.text();
+        } catch (e) {
+          // continue to next branch
+        }
+      }
+      throw { type: 'raw' };
+    }
+
+    async function loadReadme() {
+      try {
+        // Prefer API readme (handles different filenames/locations), fall back to raw
+        let markdown;
+        try {
+          markdown = await fetchViaApi();
+        } catch (apiErr) {
+          // If API failed due to rate-limit/private/404, try raw fallback
+          markdown = await fetchRawReadme();
+        }
+        container.innerHTML = marked.parse(markdown);
+      } catch (err) {
+        // Provide helpful diagnostics
+        if (err && err.type === 'api' && err.status === 404) {
+          container.innerHTML = `<p style="color:#f85149;">Error: README not found via GitHub API (404). The repo may be private or the path is incorrect.</p>`;
+        } else if (err && err.type === 'info' && err.status === 403) {
+          container.innerHTML = `<p style="color:#f85149;">Error: Repository information is not accessible (403). The repo may be private or rate-limited.</p>`;
+        } else if (err && err.type === 'raw') {
+          container.innerHTML = `<p style="color:#f85149;">Error: Could not fetch README from raw.githubusercontent.com (tried common branches). The repo may be private or README is absent.</p>`;
+        } else {
+          container.innerHTML = `<p style="color:#f85149;">Error: Could not load repository content. (${err && err.status ? 'HTTP ' + err.status : 'network or CORS issue'})</p>`;
+        }
+        console.error('README load error:', err);
+      }
+    }
+
+    loadReadme();
+</script>
+
+<!-- include shared nav script -->
+<script src="assets/js/nav.js" defer></script>
+</body>
+</html>
