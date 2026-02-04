@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Luis Donin</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<aside id="sidebar">
+<!--    <div class="profile-pic">-->
+<!--        <img src="assets/img/Untitled.jpg" alt="Luis Donin">-->
+<!--    </div>-->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="certificates.html">Certificates</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="main-content">
+    <div id="readme-container">Loading project documentation...</div>
+</main>
+
+<script>
+    const repo = "luisdonin/Gerador-de-Chaves-Presente-sem-Instrucoes-de-Maquina-por-Teoria-de-Satisfabilidade-do-Modulo";
+    const container = document.getElementById('readme-container');
+
+    async function fetchReadme() {
+        try {
+            // Fetching the README directly from GitHub's raw content
+            const response = await fetch(`https://raw.githubusercontent.com/${repo}/main/README.md`);
+            if (!response.ok) throw new Error("Failed to load README");
+
+            const markdown = await response.text();
+            // Convert Markdown to HTML and inject
+            container.innerHTML = marked.parse(markdown);
+        } catch (error) {
+            container.innerHTML = `<p style="color: #f85149;">Error: Could not load the repository content. Please check the repo visibility.</p>`;
+        }
+    }
+
+    fetchReadme();
+</script>
+
+<!-- include shared nav script -->
+<script src="assets/js/nav.js" defer></script>
+</body>
+</html>
