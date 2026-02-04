@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Videos — Gallery</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- add responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* gallery-specific rules: responsive grid and aspect-ratio wrappers */
+      :root { --gap: 16px; --card-bg: #fff; }
+      html,body { height:100%; }
+      body { box-sizing: border-box; overflow-x: hidden; }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+        gap: var(--gap);
+      }
+
+      /* Sidebar is expected to be styled from the unified stylesheet;
+         keep .sidebar width modest so main has room. */
+      .sidebar { flex: 0 0 260px; /* fallback width */ }
+
+      .content {
+        flex: 1 1 auto;
+        padding: 28px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--gap);
+        align-items: start;
+      }
+
+      .video-card {
+        background: var(--card-bg, #fff);
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .video-wrapper {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 */
+        background: #000;
+      }
+
+      .video-wrapper iframe {
+        position: absolute;
+        top:0; left:0; width:100%; height:100%;
+        border:0;
+      }
+
+      .video-meta {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+      }
+
+      /* prevent long titles or elements from causing horizontal scroll */
+      .content, .video-card, .video-meta { box-sizing: border-box; }
+      img, iframe { max-width: 100%; display: block; }
+
+      /* small responsive adjustments: stack layout on narrow screens */
+      @media (max-width: 720px) {
+        .layout { flex-direction: column; }
+        .sidebar { flex: 0 0 auto; width: 100%; }
+        .content { padding: 16px; }
+      }
+    </style>
+</head>
+<body>
+  <!-- sidebar: profile picture and nav follow site's existing structure -->
+  <div class="layout">
+    <aside id="sidebar" class="sidebar" role="complementary" aria-label="Sidebar">
+      <nav aria-label="Main navigation">
+          <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="barf.html">Binary Analysis and Reverse Engineering Framework</a></li>
+              <li><a href="policerepo.html">Police Report Management API</a></li>
+              <li><a href="certificates.html">Certificates</a></li>
+
+          </ul>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <h2>My projects on Youtube!</h2>
+
+      <section class="video-grid" aria-label="Video gallery">
+        <!-- 1 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/lVSCV62wE-I?start=7&rel=0"
+                    title="Video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 2 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/tFvLFaQcOWU?rel=0"
+                    title="Video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 3 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/3Qi67CAfDJI?rel=0"
+                    title="Video 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 4 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/YHziawi_xkM?start=11&rel=0"
+                    title="Video 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 5 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/_OBgwTxMytE?start=5&rel=0"
+                    title="Video 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 6 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/l6lHYXn1J2A?start=4&rel=0"
+                    title="Video 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 7 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/tJ5In4ffQto?rel=0"
+                    title="Video 7" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 8 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/Kx1b6gY9k4E?start=565&rel=0"
+                    title="Video 8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 9 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/AKhXnfNehdw?rel=0"
+                    title="Video 9" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+
+        <!-- 10 -->
+        <article class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/yEgMyoxHt9I?start=17&rel=0"
+                    title="Video 10" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- shared nav script -->
+  <script src="assets/js/nav.js" defer></script>
+</body>
+</html>
