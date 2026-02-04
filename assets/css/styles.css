@@ -181,8 +181,6 @@ body.fullscreen #main-content { display: none; }
   font-size: 1.5rem;
   width: 48px;
   height: 48px;
-  align-items: center;
-  justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: background 0.2s;
 }
@@ -248,8 +246,8 @@ body.fullscreen #main-content { display: none; }
     font-size: 0.95rem;
   }
   
-  /* Sidebar adjustments for mobile */
-  #sidebar {
+  /* Sidebar adjustments for mobile (non-fullscreen pages only) */
+  body:not(.fullscreen) #sidebar {
     width: 280px;
     padding: 1.5rem;
   }
