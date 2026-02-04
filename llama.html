@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Luis Donin</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Added small inline styles to make the iframe responsive and fill available space -->
+    <style>
+        /* Basic reset */
+        html, body { height: 100%; margin: 0; }
+
+        /* Use flex layout so sidebar + main are responsive */
+        body { display: flex; min-height: 100vh; flex-direction: row; }
+
+        /* Sidebar: fixed column on wide viewports, full-width stacked on small screens */
+        aside#sidebar { flex: 0 0 240px; box-sizing: border-box; }
+
+        /* Main content grows and becomes a column so the iframe can stretch */
+        main#main-content { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; padding: 0; }
+
+        /* iframe wrapper should take remaining space inside main */
+        #iframe-wrapper { flex: 1 1 auto; min-height: 0; }
+
+        /* iframe fills its wrapper fully */
+        #llama-iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+        /* Small screens: stack sidebar above main content */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            aside#sidebar { flex: 0 0 auto; width: 100%; }
+            main#main-content { flex: 1 1 auto; }
+            /* Make iframe take a sensible height on small screens (e.g. 60vh) */
+            #iframe-wrapper { height: 60vh; }
+        }
+        /* Very small screens: increase iframe height for better playability */
+        @media (max-width: 480px) {
+            #iframe-wrapper { height: 70vh; }
+        }
+    </style>
+</head>
+<body>
+
+<aside id="sidebar">
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="barf.html">Binary Analysis and Reverse Engineering Framework</a></li>
+            <li><a href="policerepo.html">Police Report Management API</a></li>
+            <li><a href="videos.html">Youtube</a></li>
+            <li><a href="certificates.html">Certificates</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main id="main-content">
+    <!-- Replace readme container with an iframe wrapper that embeds the LlamaGame GitHub Pages site -->
+    <div id="iframe-wrapper">
+        <iframe id="llama-iframe"
+                src="https://luisdonin.github.io/LlamaGame/"
+                title="Llama Game"
+                sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                loading="lazy">
+            <!-- Fallback content / link in case the iframe is blocked by the browser or server headers -->
+            Your browser or the site prevents embedding. Open the game directly: https://luisdonin.github.io/LlamaGame/
+        </iframe>
+    </div>
+    <!-- Helpful external link in case the iframe doesn't load or the browser blocks embedding -->
+    <div style="text-align:center; padding:0.5rem; background:transparent;">
+        <a href="https://luisdonin.github.io/LlamaGame/" target="_blank" rel="noopener noreferrer">Open LlamaGame in a new tab</a>
+    </div>
+</main>
+
+
+<script src="assets/js/nav.js" defer></script>
+</body>
+</html>
