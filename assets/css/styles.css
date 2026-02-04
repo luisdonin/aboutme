@@ -140,6 +140,16 @@ body.fullscreen #main-content { display: none; }
   background: #0b1014;
   border: 1px solid #22272b;
 }
+/* PDF preview: render embedded PDFs with the same visual treatment as image thumbnails */
+.pdf-preview {
+  width: 100%;
+  max-width: 420px;
+  height: 260px; /* short preview height to match thumbnail feel */
+  border-radius: 8px;
+  background: #0b1014;
+  border: 1px solid #22272b;
+  overflow: hidden;
+}
 .cert-info { max-width: 420px; }
 .cert-info h2 {
   margin-bottom: 1rem;
@@ -264,4 +274,3 @@ body.fullscreen #main-content { display: none; }
     z-index: 998;
   }
 }
-
