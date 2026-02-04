@@ -165,9 +165,103 @@ body.fullscreen #main-content { display: none; }
 }
 .btn:hover { transform: translateY(-2px); background: #2ea043; }
 
+/* Mobile hamburger toggle button */
+.nav-toggle {
+  display: none; /* hidden by default on desktop */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: #238636;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s;
+}
+.nav-toggle:hover { background: #2ea043; }
+.nav-toggle:focus { outline: 2px solid #58a6ff; outline-offset: 2px; }
+
+/* Hamburger icon */
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .cert-entry { flex-direction: column; }
   .cert-info, .cert-entry img { max-width: 100%; }
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  /* Show hamburger toggle on mobile (for all pages except index.html) */
+  body:not(.fullscreen) .nav-toggle {
+    display: flex;
+  }
+  
+  /* Hide sidebar by default on mobile */
+  body:not(.fullscreen) #sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+  
+  /* Show sidebar when nav is open */
+  body:not(.fullscreen).nav-open #sidebar {
+    transform: translateX(0);
+  }
+  
+  /* Adjust main content to full width on mobile */
+  body:not(.fullscreen) #main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    padding-top: 5rem; /* space for hamburger button */
+  }
+  
+  /* Fullscreen index.html stays centered */
+  body.fullscreen #sidebar {
+    padding: 1rem;
+  }
+  
+  body.fullscreen nav ul {
+    gap: 0.75rem;
+  }
+  
+  body.fullscreen nav a {
+    min-width: 180px;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Sidebar adjustments for mobile (non-fullscreen pages only) */
+  body:not(.fullscreen) #sidebar {
+    width: 280px;
+    padding: 1.5rem;
+  }
+  
+  /* Overlay when nav is open */
+  body:not(.fullscreen).nav-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
 }
 

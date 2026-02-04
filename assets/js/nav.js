@@ -61,10 +61,57 @@
     });
   }
 
+  function initMobileToggle() {
+    // Only add toggle for non-fullscreen pages (i.e., not index.html)
+    if (document.body.classList.contains('fullscreen')) return;
+    
+    // Create hamburger toggle button
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'nav-toggle';
+    toggleBtn.setAttribute('aria-label', 'Toggle navigation');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.innerHTML = '<span></span><span></span><span></span>';
+    
+    document.body.appendChild(toggleBtn);
+    
+    // Toggle navigation
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('nav-open');
+      toggleBtn.setAttribute('aria-expanded', isOpen.toString());
+    });
+    
+    // Close nav when clicking on overlay (outside sidebar)
+    document.addEventListener('click', (e) => {
+      if (document.body.classList.contains('nav-open')) {
+        const sidebar = document.getElementById('sidebar');
+        const clickedInsideSidebar = sidebar && sidebar.contains(e.target);
+        const clickedToggle = toggleBtn.contains(e.target);
+        
+        if (!clickedInsideSidebar && !clickedToggle) {
+          document.body.classList.remove('nav-open');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+    
+    // Close nav when clicking on nav links
+    const navLinks = document.querySelectorAll('#sidebar nav a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('nav-open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNav);
+    document.addEventListener('DOMContentLoaded', () => {
+      initNav();
+      initMobileToggle();
+    });
   } else {
     initNav();
+    initMobileToggle();
   }
 })();
 
