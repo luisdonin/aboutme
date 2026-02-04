@@ -2,202 +2,252 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Videos — Gallery</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <!-- add responsive viewport -->
+    <title>Mid-Century Modern Video Gallery</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-      /* gallery-specific rules: responsive grid and aspect-ratio wrappers */
-      :root { --gap: 16px; --card-bg: #fff; }
-      html,body { height:100%; }
-      body { box-sizing: border-box; overflow-x: hidden; }
+        :root {
+            --veneer: #8d5524;
+            --gold: #c5a059;
+            --bezel-black: #1a1a1a;
+            --panel-bg: #e0d5c0;
+        }
 
-      .layout {
-        display: flex;
-        min-height: 100vh;
-        gap: var(--gap);
-      }
+        body {
+            background: #222;
+            color: #fff;
+            font-family: 'Trebuchet MS', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-      /* Sidebar is expected to be styled from the unified stylesheet;
-         keep .sidebar width modest so main has room. */
-      .sidebar { flex: 0 0 260px; /* fallback width */ }
+        /* --- THE TELEVISION SET --- */
+        .tv-set {
+            position: relative;
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 80px;
+        }
 
-      .content {
-        flex: 1 1 auto;
-        padding: 28px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
+        /* Cabinet with Wood Grain */
+        .cabinet {
+            position: relative;
+            background: var(--veneer);
+            background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 100% 2px, 2px 100%;
+            border-radius: 40px;
+            padding: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,255,255,0.3);
+            display: flex;
+            gap: 15px;
+            border-bottom: 8px solid #5d3a1a;
+        }
 
-      .video-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--gap);
-        align-items: start;
-      }
+        /* The Legs */
+        .cabinet::before, .cabinet::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            width: 15px;
+            height: 50px;
+            background: #5d3a1a;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+        .cabinet::before { left: 80px; transform: rotate(-10deg); }
+        .cabinet::after { right: 80px; transform: rotate(10deg); }
 
-      .video-card {
-        background: var(--card-bg, #fff);
-        border-radius: 8px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
+        /* Screen Area */
+        .screen-bezel {
+            flex: 3;
+            background: var(--gold);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
 
-      .video-wrapper {
-        position: relative;
-        width: 100%;
-        padding-top: 56.25%; /* 16:9 */
-        background: #000;
-      }
+        .screen-inner {
+            background: var(--bezel-black);
+            padding: 15px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
 
-      .video-wrapper iframe {
-        position: absolute;
-        top:0; left:0; width:100%; height:100%;
-        border:0;
-      }
+        .screen-glass {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 ratio */
+            background: #000;
+            border-radius: 20% / 10%; /* Mimics the curved tube */
+            overflow: hidden;
+            box-shadow: inset 0 0 80px #000;
+        }
 
-      .video-meta {
-        padding: 12px 14px;
-        font-size: 0.95rem;
-      }
+        .screen-glass iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none;
+            z-index: 1;
+        }
 
-      /* prevent long titles or elements from causing horizontal scroll */
-      .content, .video-card, .video-meta { box-sizing: border-box; }
-      img, iframe { max-width: 100%; display: block; }
+        /* Overlay for CRT feel */
+        .crt-scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
 
-      /* small responsive adjustments: stack layout on narrow screens */
-      @media (max-width: 720px) {
-        .layout { flex-direction: column; }
-        .sidebar { flex: 0 0 auto; width: 100%; }
-        .content { padding: 16px; }
-      }
+        /* Control Panel */
+        .control-panel {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 4px solid var(--gold);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            gap: 20px;
+        }
+
+        .knob {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 50%;
+            border: 4px solid #aaa;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .knob::after {
+            content: "";
+            position: absolute;
+            top: 5px; left: 50%; width: 3px; height: 15px;
+            background: white;
+            transform: translateX(-50%);
+        }
+
+        .speaker-grille {
+            width: 100%;
+            height: 100px;
+            background: repeating-linear-gradient(0deg, #333, #333 4px, transparent 4px, transparent 8px);
+            margin-top: auto;
+            opacity: 0.8;
+        }
+
+        /* --- VHS SHELF --- */
+        .vhs-shelf {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .vhs-tape {
+            background: #111;
+            border: 1px solid #333;
+            padding: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .vhs-tape:hover {
+            transform: translateY(-15px) rotate(-2deg);
+        }
+
+        .vhs-tape img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .vhs-label {
+            background: #eee;
+            color: #222;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ccc;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 700px) {
+            .cabinet { flex-direction: column; padding: 15px; }
+            .control-panel { flex-direction: row; height: 100px; }
+            .speaker-grille { display: none; }
+        }
     </style>
 </head>
 <body>
-  <!-- sidebar: profile picture and nav follow site's existing structure -->
-  <div class="layout">
-    <aside id="sidebar" class="sidebar" role="complementary" aria-label="Sidebar">
-      <nav aria-label="Main navigation">
-          <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="barf.html">Binary Analysis and Reverse Engineering Framework</a></li>
-              <li><a href="policerepo.html">Police Report Management API</a></li>
-              <li><a href="certificates.html">Certificates</a></li>
 
-          </ul>
-      </nav>
-    </aside>
+<div class="tv-set">
+    <div class="cabinet">
+        <div class="screen-bezel">
+            <div class="screen-inner">
+                <div class="screen-glass">
+                    <div class="crt-scanlines"></div>
+                    <iframe id="tv-frame" src="https://www.youtube.com/embed/lVSCV62wE-I?autoplay=0&rel=0&controls=0"></iframe>
+                </div>
+            </div>
+        </div>
 
-    <main class="content" id="main">
-      <h2>My projects on Youtube!</h2>
+        <div class="control-panel">
+            <div class="knob" style="transform: rotate(45deg);"></div>
+            <div class="knob" style="transform: rotate(180deg);"></div>
+            <div style="font-size: 10px; color: #333; font-weight: bold;">SOLID STATE</div>
+            <div class="speaker-grille"></div>
+        </div>
+    </div>
+</div>
 
-      <section class="video-grid" aria-label="Video gallery">
-        <!-- 1 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/lVSCV62wE-I?start=7&rel=0"
-                    title="Video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
+<h2 style="font-family: 'Courier New'; color: var(--gold);">AVAILABLE TAPES</h2>
 
-        </article>
+<div class="vhs-shelf">
+    <div class="vhs-tape" onclick="changeChannel('lVSCV62wE-I', 'Binary Analysis')">
+        <img src="https://img.youtube.com/vi/lVSCV62wE-I/hqdefault.jpg">
+        <div class="vhs-label">Binary Analysis</div>
+    </div>
 
-        <!-- 2 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/tFvLFaQcOWU?rel=0"
-                    title="Video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
+    <div class="vhs-tape" onclick="changeChannel('tFvLFaQcOWU', 'Police Repo')">
+        <img src="https://img.youtube.com/vi/tFvLFaQcOWU/hqdefault.jpg">
+        <div class="vhs-label">Police Repo</div>
+    </div>
 
-        </article>
+    <div class="vhs-tape" onclick="changeChannel('3Qi67CAfDJI', 'Project 3')">
+        <img src="https://img.youtube.com/vi/3Qi67CAfDJI/hqdefault.jpg">
+        <div class="vhs-label">Project 3</div>
+    </div>
 
-        <!-- 3 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/3Qi67CAfDJI?rel=0"
-                    title="Video 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
+    <div class="vhs-tape" onclick="changeChannel('YHziawi_xkM', 'Project 4')">
+        <img src="https://img.youtube.com/vi/YHziawi_xkM/hqdefault.jpg">
+        <div class="vhs-label">Project 4</div>
+    </div>
+</div>
 
-        </article>
+<script>
+    function changeChannel(id, title) {
+        const frame = document.getElementById('tv-frame');
+        // Add a slight flicker effect when changing
+        frame.style.opacity = '0.5';
+        setTimeout(() => {
+            frame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&controls=0`;
+            frame.style.opacity = '1';
+        }, 200);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
 
-        <!-- 4 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/YHziawi_xkM?start=11&rel=0"
-                    title="Video 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 5 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/_OBgwTxMytE?start=5&rel=0"
-                    title="Video 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 6 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/l6lHYXn1J2A?start=4&rel=0"
-                    title="Video 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 7 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/tJ5In4ffQto?rel=0"
-                    title="Video 7" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 8 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/Kx1b6gY9k4E?start=565&rel=0"
-                    title="Video 8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 9 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/AKhXnfNehdw?rel=0"
-                    title="Video 9" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-
-        <!-- 10 -->
-        <article class="video-card">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/yEgMyoxHt9I?start=17&rel=0"
-                    title="Video 10" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-          </div>
-
-        </article>
-      </section>
-    </main>
-  </div>
-
-  <!-- shared nav script -->
-  <script src="assets/js/nav.js" defer></script>
 </body>
 </html>
