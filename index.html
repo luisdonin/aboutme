@@ -105,8 +105,67 @@
 
         /* Make sure overlay doesn't overflow small screens */
         @media (max-width: 520px) {
-            .center-overlay h1 { font-size: 1rem; }
-            nav.center-nav ul { gap: 0.4rem; }
+            /* allow the viewport to scroll on small devices so fixed overlay can be scrollable */
+            html, body {
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .center-overlay {
+                width: 92%;
+                max-width: 540px;
+                max-height: 90vh;          /* allow content to occupy more of the screen */
+                padding: 1rem;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;    /* stack content vertically */
+                gap: 0.75rem;
+                align-items: center;
+                justify-content: center;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                overflow: auto;            /* enable scroll if needed */
+                -webkit-overflow-scrolling: touch;
+                background: rgba(4,8,14,0.35); /* subtle backdrop to improve contrast on mobile */
+                border-radius: 10px;
+            }
+
+            .center-overlay > div {      /* header block */
+                width: 100%;
+                text-align: center;
+            }
+
+            .center-overlay h1 { font-size: 1.05rem; margin-bottom: .35rem; }
+
+            nav.center-nav {
+                width: 100%;
+                padding: 0.5rem;
+                border-radius: 8px;
+                background: rgba(12,16,24,0.45);
+            }
+
+            nav.center-nav ul {
+                flex-direction: column;   /* vertical list for easy tapping */
+                gap: 0.5rem;
+                align-items: stretch;
+            }
+
+            nav.center-nav li { width: 100%; }
+
+            nav.center-nav a {
+                display: block;           /* full-width touch target */
+                width: 100%;
+                padding: 0.6rem 0.9rem;   /* larger tap area */
+                font-size: 1rem;
+                text-align: center;
+                border-radius: 8px;
+                letter-spacing: 0.6px;
+                box-shadow: none;
+            }
+
+            nav.center-nav a:hover {
+                transform: none;          /* avoid small hover transform that can feel jumpy on touch */
+                box-shadow: 0 6px 18px rgba(50,150,255,0.06);
+            }
         }
     </style>
 </head>
@@ -124,7 +183,7 @@
         <ul>
             <li><a href="barf.html">Binary Analysis and Reverse Engineering Framework</a></li>
             <li><a href="policerepo.html">Police Report Management API</a></li>
-<!--            <li><a href="llama.html">Llama Game!</a></li>-->
+            <li><a href="llama.html">Llama Game!</a></li>
             <li><a href="videos.html">Youtube</a></li>
             <li><a href="certificates.html">Certificates</a></li>
         </ul>
